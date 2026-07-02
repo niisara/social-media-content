@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getItemDetail, EntryNotFoundError } from "@/lib/schedule/get-item-detail";
+import { listBrands } from "@/lib/schedule/list-brands";
 import { ItemDetailView } from "./ItemDetailView";
 
 interface ItemDetailPageProps {
@@ -26,10 +27,18 @@ export default async function ItemDetailPage({ params, searchParams }: ItemDetai
     throw error;
   }
 
+  const brandInfo = listBrands().find((candidate) => candidate.slug === detail.brand);
+
   return (
-    <main style={{ padding: "1.5rem", maxWidth: 700, margin: "0 auto" }}>
-      <Link href="/">← Back to dashboard</Link>
-      <ItemDetailView detail={detail} error={error} />
+    <main className="mx-auto max-w-2xl p-6">
+      <Link href="/" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+        ← Back to dashboard
+      </Link>
+      <ItemDetailView
+        detail={detail}
+        brand={{ displayName: brandInfo?.displayName ?? detail.brand, color: brandInfo?.color ?? "#6b7280" }}
+        error={error}
+      />
     </main>
   );
 }

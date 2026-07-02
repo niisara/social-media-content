@@ -1,52 +1,41 @@
 import type { ContentItemSummary } from "@/lib/schedule/get-schedule-for-range";
+import { WarningBanner } from "@/components/ui/WarningBanner";
 
 interface DataIntegrityNoticesProps {
   untrackedContent: ContentItemSummary[];
   duplicateContentIds: string[];
 }
 
-export function DataIntegrityNotices({
-  untrackedContent,
-  duplicateContentIds,
-}: DataIntegrityNoticesProps) {
+export function DataIntegrityNotices({ untrackedContent, duplicateContentIds }: DataIntegrityNoticesProps) {
   if (untrackedContent.length === 0 && duplicateContentIds.length === 0) {
     return null;
   }
 
   return (
-    <section
-      style={{
-        marginTop: "1rem",
-        padding: "0.75rem 1rem",
-        border: `1px solid var(--color-danger)`,
-        borderRadius: 8,
-        background: "#fff5f5",
-      }}
-    >
+    <div className="flex flex-col gap-3">
       {untrackedContent.length > 0 && (
-        <div style={{ marginBottom: duplicateContentIds.length > 0 ? "0.5rem" : 0 }}>
-          <strong>Untracked content ({untrackedContent.length}):</strong> these files exist under
-          content/ but have no manifest entry yet.
-          <ul>
+        <WarningBanner title={`Untracked content (${untrackedContent.length})`}>
+          These files exist under <code className="text-xs">content/</code> but have no manifest
+          entry yet.
+          <ul className="mt-1 list-inside list-disc">
             {untrackedContent.map((item) => (
               <li key={item.contentId}>
                 {item.brand}: {item.contentId}
               </li>
             ))}
           </ul>
-        </div>
+        </WarningBanner>
       )}
       {duplicateContentIds.length > 0 && (
-        <div>
-          <strong>Duplicate content references ({duplicateContentIds.length}):</strong> the same
-          content ID is tracked by more than one manifest entry.
-          <ul>
+        <WarningBanner title={`Duplicate content references (${duplicateContentIds.length})`}>
+          The same content ID is tracked by more than one manifest entry.
+          <ul className="mt-1 list-inside list-disc">
             {duplicateContentIds.map((contentId) => (
               <li key={contentId}>{contentId}</li>
             ))}
           </ul>
-        </div>
+        </WarningBanner>
       )}
-    </section>
+    </div>
   );
 }

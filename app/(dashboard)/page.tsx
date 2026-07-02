@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getScheduleForRange } from "@/lib/schedule/get-schedule-for-range";
 import { listBrands } from "@/lib/schedule/list-brands";
 import {
@@ -12,6 +11,7 @@ import { CalendarGrid, type CalendarItem } from "./components/CalendarGrid";
 import { UnscheduledBucket } from "./components/UnscheduledBucket";
 import { DataIntegrityNotices } from "./components/DataIntegrityNotices";
 import { BrandFilter } from "./components/BrandFilter";
+import { SegmentedControl } from "@/components/ui/SegmentedControl";
 
 interface DashboardPageProps {
   searchParams: Promise<{ view?: string; offset?: string; brand?: string }>;
@@ -47,32 +47,43 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   };
 
   return (
-    <main style={{ padding: "1.5rem", maxWidth: 1100, margin: "0 auto" }}>
-      <h1>Scheduling Dashboard</h1>
+    <main className="mx-auto max-w-5xl p-6">
+      <h1 className="text-2xl font-bold text-gray-900">Scheduling Dashboard</h1>
 
-      <nav style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginBottom: "1rem" }}>
-        <Link href={withParams({ offset: String(offset - 1) })}>← Previous {view}</Link>
-        <Link href={withParams({ offset: "0" })}>Today</Link>
-        <Link href={withParams({ offset: String(offset + 1) })}>Next {view} →</Link>
-        <span style={{ marginLeft: "auto" }}>
-          <Link href={withParams({ view: view === "week" ? "month" : "week", offset: "0" })}>
-            Switch to {view === "week" ? "month" : "week"} view
-          </Link>
-        </span>
+      <nav className="mt-4 flex flex-wrap items-center gap-3">
+        <SegmentedControl
+          options={[
+            { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
+            { label: "Today", href: withParams({ offset: "0" }), active: offset === 0 },
+            { label: `Next ${view} →`, href: withParams({ offset: String(offset + 1) }), active: false },
+          ]}
+        />
+        <SegmentedControl
+          options={[
+            { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
+            { label: "Month", href: withParams({ view: "month", offset: "0" }), active: view === "month" },
+          ]}
+        />
       </nav>
 
-      <p style={{ color: "var(--color-muted)" }}>Showing {range.start} – {range.end}</p>
+      <p className="mt-2 text-sm text-gray-500">
+        Showing {range.start} – {range.end}
+      </p>
 
-      <BrandFilter brands={brands} activeBrand={brand} view={view} offset={offset} />
+      <div className="mt-4">
+        <BrandFilter brands={brands} activeBrand={brand} view={view} offset={offset} />
+      </div>
 
-      <DataIntegrityNotices
-        untrackedContent={scheduleView.untrackedContent}
-        duplicateContentIds={scheduleView.duplicateContentIds}
-      />
+      <div className="mt-6 flex flex-col gap-6">
+        <DataIntegrityNotices
+          untrackedContent={scheduleView.untrackedContent}
+          duplicateContentIds={scheduleView.duplicateContentIds}
+        />
 
-      <CalendarGrid range={range} items={calendarItems} brands={brands} />
+        <CalendarGrid range={range} items={calendarItems} brands={brands} />
 
-      <UnscheduledBucket items={scheduleView.unscheduled} brands={brands} />
+        <UnscheduledBucket items={scheduleView.unscheduled} brands={brands} />
+      </div>
     </main>
   );
 }

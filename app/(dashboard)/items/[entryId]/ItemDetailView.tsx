@@ -4,6 +4,9 @@ import { formatScheduledAt } from "@/lib/timezone";
 import { ScheduleForm } from "./ScheduleForm";
 import { RepostForm } from "./RepostForm";
 import { transitionToPostedAction } from "@/app/actions/schedule";
+import { BrandTag } from "@/components/ui/BrandTag";
+import { StatusChip } from "@/components/ui/StatusChip";
+import { RepostBadge } from "@/components/ui/RepostBadge";
 
 const ERROR_MESSAGES: Record<string, string> = {
   "missing-schedule-fields": "Both a scheduled date and a timezone are required.",
@@ -17,68 +20,76 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 interface ItemDetailViewProps {
   detail: ItemDetail;
+  brand: { displayName: string; color: string };
   error?: string;
-  /** Slot for additional action forms (e.g. repost), added by later user stories. */
+  /** Slot for additional action forms, if ever needed beyond schedule/repost. */
   children?: ReactNode;
 }
 
-export function ItemDetailView({ detail, error, children }: ItemDetailViewProps) {
+export function ItemDetailView({ detail, brand, error, children }: ItemDetailViewProps) {
   return (
-    <article style={{ marginTop: "1rem" }}>
-      <h1 style={{ marginBottom: "0.25rem" }}>{detail.brand}</h1>
-      <p style={{ color: "var(--color-muted)", marginTop: 0 }}>
-        Status: <strong>{detail.status}</strong>
-        {detail.repostOf && (
-          <>
-            {" "}
-            · Repost of <code>{detail.repostOf}</code>
-          </>
-        )}
-      </p>
+    <article className="mt-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <BrandTag brand={brand} />
+        <StatusChip status={detail.status} />
+        {detail.repostOf && <RepostBadge />}
+      </div>
+
+      {detail.repostOf && (
+        <p className="mt-1 text-sm text-gray-500">
+          Repost of <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">{detail.repostOf}</code>
+        </p>
+      )}
 
       {error && (
-        <p style={{ color: "var(--color-danger)" }}>
+        <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
           ⚠ {ERROR_MESSAGES[error] ?? "Something went wrong completing that action."}
         </p>
       )}
 
       {detail.scheduledAt && detail.timezone && (
-        <p>Scheduled for {formatScheduledAt(detail.scheduledAt, detail.timezone)}</p>
+        <p className="mt-3 text-sm text-gray-600">
+          Scheduled for {formatScheduledAt(detail.scheduledAt, detail.timezone)}
+        </p>
       )}
 
       {detail.brokenReference ? (
-        <p style={{ color: "var(--color-danger)" }}>
-          ⚠ The content file for this entry (<code>{detail.contentId}</code>) could not be found or
-          is invalid.
+        <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
+          ⚠ The content file for this entry (<code className="text-xs">{detail.contentId}</code>)
+          could not be found or is invalid.
         </p>
       ) : (
         <>
-          <section>
-            <h2 style={{ fontSize: "1rem" }}>Caption</h2>
-            <p style={{ whiteSpace: "pre-wrap" }}>{detail.caption}</p>
+          <section className="mt-6">
+            <h2 className="text-sm font-semibold text-gray-700">Caption</h2>
+            <p className="mt-1 whitespace-pre-wrap text-base text-gray-900">{detail.caption}</p>
           </section>
 
-          <section>
-            <h2 style={{ fontSize: "1rem" }}>Hashtags</h2>
-            <p>{detail.hashtags && detail.hashtags.length > 0 ? detail.hashtags.join(" ") : "(none)"}</p>
+          <section className="mt-4">
+            <h2 className="text-sm font-semibold text-gray-700">Hashtags</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              {detail.hashtags && detail.hashtags.length > 0 ? detail.hashtags.join(" ") : "(none)"}
+            </p>
           </section>
 
-          <section>
-            <h2 style={{ fontSize: "1rem" }}>Media</h2>
+          <section className="mt-4">
+            <h2 className="text-sm font-semibold text-gray-700">Media</h2>
             {detail.media && detail.media.length > 0 ? (
-              <ul>
+              <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
                 {detail.media.map((mediaRef) => (
                   <li key={mediaRef}>{mediaRef}</li>
                 ))}
               </ul>
             ) : (
-              <p>(none)</p>
+              <p className="mt-1 text-sm text-gray-600">(none)</p>
             )}
           </section>
 
-          <section>
-            <h2 style={{ fontSize: "1rem" }}>Platforms</h2>
-            <p>{detail.platforms && detail.platforms.length > 0 ? detail.platforms.join(", ") : "(none)"}</p>
+          <section className="mt-4">
+            <h2 className="text-sm font-semibold text-gray-700">Platforms</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              {detail.platforms && detail.platforms.length > 0 ? detail.platforms.join(", ") : "(none)"}
+            </p>
           </section>
         </>
       )}
@@ -86,10 +97,15 @@ export function ItemDetailView({ detail, error, children }: ItemDetailViewProps)
       {detail.status === "draft" && <ScheduleForm entryId={detail.entryId} brand={detail.brand} />}
 
       {detail.status === "scheduled" && (
-        <form action={transitionToPostedAction} style={{ marginTop: "1rem" }}>
+        <form action={transitionToPostedAction} className="mt-4">
           <input type="hidden" name="entryId" value={detail.entryId} />
           <input type="hidden" name="brand" value={detail.brand} />
-          <button type="submit">Mark as Posted</button>
+          <button
+            type="submit"
+            className="rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-700 focus:outline-2 focus:outline-offset-2 focus:outline-gray-900"
+          >
+            Mark as Posted
+          </button>
         </form>
       )}
 

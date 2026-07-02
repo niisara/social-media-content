@@ -8,6 +8,14 @@
 
 **Input**: User description: "Redesign the scheduling dashboard UI to be visually modern and engaging while keeping all existing functionality (week/month view navigation, brand filters, untracked-content warnings, unscheduled bucket). Purpose: the current dashboard is functionally correct but looks like an unstyled prototype (plain black/white, default browser typography, no visual hierarchy). It needs to feel like a polished product someone would want to open every day, not a wireframe. Visual direction covers: (1) distinct, centrally-defined per-brand accent colors applied consistently everywhere; (2) card design with elevation, rounded corners, spacing, and a clear brand/caption/status hierarchy, with status chips color-coded (draft=neutral, scheduled=blue, posted=green, reposted=purple); (3) calendar grid highlighting today, differentiating full vs. empty days, and optionally weekends; (4) a real typographic scale and increased whitespace; (5) navigation/filter controls redesigned as grouped, stateful controls instead of plain links; (6) visually distinct warning styling for untracked content and a muted, separated treatment for the unscheduled bucket; (7) responsive behavior so the week grid adapts on small screens. Non-goals: no new functionality, no new data fields, no manifest schema or scheduling logic changes — purely a visual/UX redesign layer on top of existing behavior. Success: the dashboard feels like a considered product with clear visual hierarchy, instantly recognizable brand colors, at-a-glance status, and no default browser styling."
 
+## Clarifications
+
+### Session 2026-07-02
+
+- Q: What overall aesthetic direction should the redesign follow? → A: Clean/minimal SaaS aesthetic — neutral base, color reserved for brand accents & status chips, generous whitespace.
+- Q: Is dark mode in scope for this pass? → A: No — light mode only; dark mode is deferred to a future feature.
+- Q: Does "engaging" imply custom motion/animation, or is static styling with conventional hover/focus states sufficient? → A: Static styling plus conventional hover/focus states only — no custom transitions or animations.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Recognize content at a glance by brand and status (Priority: P1)
@@ -130,6 +138,8 @@ As someone who might check the dashboard from a phone or narrow browser window, 
 - **FR-016**: The calendar/week view MUST remain usable at narrow (mobile-width) viewports, either by stacking days or allowing horizontal scrolling, without clipping or overlapping content.
 - **FR-017**: Every existing interactive behavior (date navigation, view toggling, brand filtering, opening item detail, scheduling, marking posted, creating a repost) MUST continue to work exactly as before — this feature changes appearance only, not behavior.
 - **FR-018**: All status and brand color indicators MUST maintain readable text contrast against their background at all times.
+- **FR-019**: The overall visual style MUST follow a clean/minimal aesthetic — a neutral base (background, page chrome, body text) with color reserved for brand accents and status indicators, and generous whitespace rather than a dense, saturated, or heavily decorated look.
+- **FR-020**: Clickable elements (links, buttons, filter pills, cards) MUST show a conventional hover/focus state; the redesign is NOT required to include custom transitions or animations beyond this baseline.
 
 ## Success Criteria *(mandatory)*
 
@@ -150,3 +160,5 @@ As someone who might check the dashboard from a phone or narrow browser window, 
 - No new pages, routes, or navigation destinations are introduced; the existing dashboard and item-detail pages are restyled, not restructured.
 - Accessibility scope for this pass is limited to readable color contrast; a full accessibility audit (e.g., screen-reader-specific redesign) is not required.
 - "Success" for SC-005 is validated through direct visual review (a before/after comparison) rather than an automated metric, since visual polish is inherently a qualitative judgment.
+- Dark mode is explicitly out of scope for this pass — the redesign targets a single light theme; a system-preference or manual dark mode toggle would be a separate future feature.
+- "Engaging" is satisfied through visual hierarchy, color, and layout alone; custom motion/animation (transitions, fade-ins, animated view switches) is explicitly out of scope for this pass beyond conventional hover/focus states.

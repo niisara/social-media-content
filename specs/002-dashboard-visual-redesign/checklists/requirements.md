@@ -41,6 +41,9 @@
 - No Key Entities section: this feature introduces no new data — it restyles
   existing content items, manifest entries, and brands, per the explicit
   non-goals (no new data fields, no manifest schema changes).
-- Ready for `/speckit-clarify` (optional, if the user wants to challenge an
-  assumption — e.g., the repost-badge-vs-status-value interpretation) or
-  directly for `/speckit-plan`.
+- 2026-07-02 clarification session resolved 3 additional open questions
+  (aesthetic direction, dark mode scope, motion/animation scope) — see
+  spec.md's Clarifications section. All checklist items remained passing
+  before and after (16/16 → 16/16); clarification reinforced clarity rather
+  than fixing a failing item.
+- Ready for `/speckit-plan`.
