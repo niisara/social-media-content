@@ -29,7 +29,9 @@ export function BrandFilterPill({ label, color, active, href }: BrandFilterPillP
         active ? activeClasses : inactiveClasses
       }`}
     >
-      {label}
+      <span className="max-w-40 truncate" title={label}>
+        {label}
+      </span>
     </Link>
   );
 }

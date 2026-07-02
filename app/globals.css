@@ -13,7 +13,9 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    /* slate-200, not gray-50: gray-50 is ~1.5% off pure white and reads as
+       white (the 002 mistake this pass corrects — spec 003 FR-007). */
+    @apply bg-slate-200 text-gray-900 antialiased;
   }
 
   a {

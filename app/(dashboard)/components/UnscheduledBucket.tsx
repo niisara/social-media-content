@@ -15,9 +15,9 @@ export function UnscheduledBucket({ items, brands }: UnscheduledBucketProps) {
 
   return (
     <section className="rounded-lg border border-dashed border-gray-300 bg-gray-50/60 p-4">
-      <h2 className="text-sm font-semibold text-gray-500">Unscheduled ({items.length})</h2>
+      <h2 className="text-sm font-semibold text-gray-600">Unscheduled ({items.length})</h2>
       {items.length === 0 ? (
-        <p className="mt-1 text-sm text-gray-500">No drafts waiting to be scheduled.</p>
+        <p className="mt-1 text-sm text-gray-600">No drafts waiting to be scheduled.</p>
       ) : (
         <ul className="mt-2 flex list-none flex-wrap gap-2 p-0">
           {items.map((item) => {
@@ -26,11 +26,11 @@ export function UnscheduledBucket({ items, brands }: UnscheduledBucketProps) {
               <li key={item.entryId} className="w-56">
                 <Link href={`/items/${item.entryId}?brand=${item.brand}`} className="block">
                   <Card brandColor={brand?.color} muted className="p-2">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
                       <BrandTag brand={{ displayName: brand?.displayName ?? item.brand, color: brand?.color ?? "#6b7280" }} />
                       <StatusChip status={item.status} />
                     </div>
-                    <p className="mt-1.5 line-clamp-2 text-sm text-gray-700">
+                    <p className="mt-1.5 line-clamp-2 text-sm break-words text-gray-700">
                       {item.captionPreview ?? "(untitled)"}
                     </p>
                   </Card>

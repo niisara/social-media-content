@@ -48,30 +48,31 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
   return (
     <main className="mx-auto max-w-5xl p-6">
-      <h1 className="text-2xl font-bold text-gray-900">Scheduling Dashboard</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900">Scheduling Dashboard</h1>
 
-      <nav className="mt-4 flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          options={[
-            { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
-            { label: "Today", href: withParams({ offset: "0" }), active: offset === 0 },
-            { label: `Next ${view} →`, href: withParams({ offset: String(offset + 1) }), active: false },
-          ]}
-        />
-        <SegmentedControl
-          options={[
-            { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
-            { label: "Month", href: withParams({ view: "month", offset: "0" }), active: view === "month" },
-          ]}
-        />
-      </nav>
+      <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+        <nav className="flex flex-wrap items-center gap-3">
+          <SegmentedControl
+            options={[
+              { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
+              { label: "Today", href: withParams({ offset: "0" }), active: offset === 0 },
+              { label: `Next ${view} →`, href: withParams({ offset: String(offset + 1) }), active: false },
+            ]}
+          />
+          <SegmentedControl
+            options={[
+              { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
+              { label: "Month", href: withParams({ view: "month", offset: "0" }), active: view === "month" },
+            ]}
+          />
+          <p className="text-sm text-gray-600">
+            Showing {range.start} – {range.end}
+          </p>
+        </nav>
 
-      <p className="mt-2 text-sm text-gray-500">
-        Showing {range.start} – {range.end}
-      </p>
-
-      <div className="mt-4">
-        <BrandFilter brands={brands} activeBrand={brand} view={view} offset={offset} />
+        <div className="mt-3 border-t border-gray-100 pt-3">
+          <BrandFilter brands={brands} activeBrand={brand} view={view} offset={offset} />
+        </div>
       </div>
 
       <div className="mt-6 flex flex-col gap-6">

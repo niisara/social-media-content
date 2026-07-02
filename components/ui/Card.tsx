@@ -20,7 +20,7 @@ export function Card({ brandColor, muted, className, children }: CardProps) {
     <div
       style={style}
       className={[
-        "rounded-lg p-3 transition-shadow",
+        "overflow-hidden rounded-lg p-3 transition-shadow",
         borderClasses,
         muted ? "bg-gray-50" : "bg-white shadow-sm hover:shadow-md",
         className ?? "",

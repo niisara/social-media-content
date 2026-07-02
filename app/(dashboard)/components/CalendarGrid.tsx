@@ -30,7 +30,9 @@ export function CalendarGrid({ range, items, brands }: CalendarGridProps) {
   const today = DateTime.now().toISODate();
 
   return (
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-7">
+    // 7 columns only from lg up: at md widths a 7-col cell (~70px content) cannot hold
+    // the widest status chip without squeezing it, which FR-004 forbids.
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7">
       {dates.map((date) => {
         const dayItems = itemsByDate.get(date) ?? [];
         const dt = DateTime.fromISO(date);
@@ -42,29 +44,31 @@ export function CalendarGrid({ range, items, brands }: CalendarGridProps) {
           <div
             key={date}
             className={[
-              "min-h-32 rounded-lg p-2 transition-colors",
+              "min-h-32 rounded-lg p-2 transition-shadow",
               isToday
-                ? "border-2 border-gray-900 bg-white"
-                : isWeekend
-                  ? "border border-gray-200 bg-gray-50"
-                  : "border border-gray-200 bg-white",
+                ? "bg-white shadow-sm ring-2 ring-gray-900"
+                : isEmpty
+                  ? "border border-dashed border-slate-300 bg-white/40"
+                  : isWeekend
+                    ? "border border-slate-200 bg-slate-50 shadow-sm"
+                    : "border border-gray-200 bg-white shadow-sm",
             ].join(" ")}
           >
             <div
-              className={`mb-2 flex items-center gap-1.5 text-sm font-semibold ${
+              className={`mb-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-semibold ${
                 isToday ? "text-gray-900" : "text-gray-700"
               }`}
             >
-              {dt.toFormat("EEE, MMM d")}
+              <span className="whitespace-nowrap">{dt.toFormat("EEE, MMM d")}</span>
               {isToday && (
-                <span className="rounded-full bg-gray-900 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
+                <span className="shrink-0 rounded-full bg-gray-900 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
                   Today
                 </span>
               )}
             </div>
 
             {isEmpty ? (
-              <p className="text-xs text-gray-400">No content</p>
+              <p className="text-xs text-gray-600">No content</p>
             ) : (
               <div className="flex flex-col gap-2">
                 {dayItems.map((item) => {
@@ -72,13 +76,13 @@ export function CalendarGrid({ range, items, brands }: CalendarGridProps) {
                   return (
                     <Link key={item.entryId} href={`/items/${item.entryId}?brand=${item.brand}`} className="block">
                       <Card brandColor={brand?.color} className="p-2">
-                        <div className="flex items-center justify-between gap-2">
+                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
                           <BrandTag
                             brand={{ displayName: brand?.displayName ?? item.brand, color: brand?.color ?? "#6b7280" }}
                           />
                           <StatusChip status={item.status} />
                         </div>
-                        <p className="mt-1.5 line-clamp-2 text-sm text-gray-800">
+                        <p className="mt-1.5 line-clamp-2 text-sm break-words text-gray-800">
                           {item.captionPreview ?? "(untitled)"}
                         </p>
                         {(item.repostOf || item.brokenReference) && (
