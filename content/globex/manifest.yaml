@@ -1,0 +1,6 @@
+entries:
+  - entryId: globex-weekly-update-01
+    contentId: globex/2026-07-06-weekly-update.md
+    status: scheduled
+    scheduledAt: "2026-07-06T11:00:00"
+    timezone: America/Chicago
