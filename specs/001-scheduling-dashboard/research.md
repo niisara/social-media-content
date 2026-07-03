@@ -29,7 +29,7 @@ describes and stays readable/diffable in git.
 ## Decision 2: Content item identity
 
 **Decision**: A content item's ID is its path relative to `content/`,
-e.g. `acme/2026-08-03-launch-teaser.md`. This value is stored in the file's
+e.g. `acme/launch-teaser.md`. This value is stored in the file's
 own frontmatter as `id` (for self-description) and is what manifest entries
 reference in their `contentId` field.
 

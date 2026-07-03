@@ -1,5 +1,5 @@
 ---
-id: acme/2026-07-12-untracked-post.md
+id: acme/untracked-post.md
 caption: "This file exists on disk but hasn't been added to the manifest yet."
 hashtags:
   - "#acme"

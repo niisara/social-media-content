@@ -23,7 +23,7 @@ for one piece of social content (constitution Principle I).
 
 | Field (frontmatter) | Type | Required | Notes |
 |---|---|---|---|
-| `id` | string | Yes | Path relative to `content/`, e.g. `acme/2026-08-03-launch-teaser.md`. Self-describing; matches the file's own location. |
+| `id` | string | Yes | Path relative to `content/`, e.g. `acme/launch-teaser.md`. Self-describing; matches the file's own location. |
 | `caption` | string | Yes | The post body/caption text. |
 | `hashtags` | string[] | No (default `[]`) | Hashtags without enforced formatting beyond being strings. |
 | `media` | string[] | No (default `[]`) | Media references (filenames, relative paths, or URLs) — displayed as identifying text, not rendered as previews in this version. |

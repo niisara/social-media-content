@@ -23,22 +23,22 @@ to exercise:
 content/
 ├── acme/
 │   ├── manifest.yaml
-│   ├── 2026-07-05-launch-teaser.md      (manifest entry: scheduled, this week)
-│   ├── 2026-07-10-behind-the-scenes.md  (manifest entry: draft, unscheduled)
-│   ├── 2026-06-20-product-shot.md       (manifest entry: posted, past)
-│   └── 2026-07-12-untracked-post.md     (no manifest entry — untracked)
+│   ├── launch-teaser.md      (manifest entry: scheduled, this week)
+│   ├── behind-the-scenes.md  (manifest entry: draft, unscheduled)
+│   ├── product-shot.md       (manifest entry: posted, past)
+│   └── untracked-post.md     (no manifest entry — untracked)
 └── globex/
     ├── manifest.yaml
-    └── 2026-07-06-weekly-update.md      (manifest entry: scheduled, this week)
+    └── weekly-update.md      (manifest entry: scheduled, this week)
 ```
 
 Each `.md` file needs frontmatter matching [data-model.md](./data-model.md)
 (`id`, `caption`, `hashtags`, `media`, `platforms`). Each `manifest.yaml`
 needs one entry per file it tracks, matching the Manifest Entry shape. Note
 the distinction the dashboard draws between two different "no schedule yet"
-cases: `2026-07-10-behind-the-scenes.md` has a manifest entry with
+cases: `behind-the-scenes.md` has a manifest entry with
 `status: draft` and no date (shows in the **unscheduled bucket**, FR-003),
-while `2026-07-12-untracked-post.md` has no manifest entry at all (shows as
+while `untracked-post.md` has no manifest entry at all (shows as
 **untracked content**, FR-021) — only an existing draft manifest entry can
 be moved to "scheduled"; an untracked file has nothing to transition yet.
 
@@ -54,31 +54,23 @@ Open the dashboard in a browser at the local dev URL.
 
 ### 1. See everything scheduled across brands (User Story 1)
 
-- Confirm `2026-07-05-launch-teaser` (acme) and `2026-07-06-weekly-update`
-  (globex) both appear on their respective dates in the current week, each
-  visibly tagged/colored by brand.
-- Confirm `2026-07-10-behind-the-scenes` does **not** appear on the calendar
-  but does appear in the unscheduled bucket (it's a draft manifest entry
-  with no date, FR-003).
-- Confirm `2026-07-12-untracked-post` does **not** appear on the calendar or
-  in the unscheduled bucket, but does appear flagged as **untracked
-  content** somewhere visible (FR-021).
+- Confirm `launch-teaser` (acme) and `weekly-update` (globex) both appear on their respective dates in the current week, each visibly tagged/colored by brand.
+- Confirm `behind-the-scenes` does **not** appear on the calendar but does appear in the unscheduled bucket (it's a draft manifest entry with no date, FR-003).
+- Confirm `untracked-post` does **not** appear on the calendar or in the unscheduled bucket, but does appear flagged as **untracked content** somewhere visible (FR-021).
 - Navigate to the following week, then back to the previous week; confirm
   the visible items change to match each range and the current week's items
   reappear when you return (FR-001a).
 
 ### 2. Drill into a single item's details (User Story 2)
 
-- Click `2026-07-05-launch-teaser`. Confirm caption, hashtags, media
-  references, and platforms match the `.md` file's frontmatter exactly, and
-  status reads "scheduled" with its date/timezone.
+- Click `launch-teaser`. Confirm caption, hashtags, media references, and platforms match the `.md` file's frontmatter exactly, and status reads "scheduled" with its date/timezone.
 - Edit the `.md` file's caption directly on disk, reload the detail view,
   and confirm the new caption appears without restarting the app (FR-005a —
   proves there's no caching layer to invalidate).
 
 ### 3. Move an item through its lifecycle (User Story 3)
 
-- Open `2026-07-10-behind-the-scenes` (draft manifest entry, unscheduled).
+- Open `behind-the-scenes` (draft manifest entry, unscheduled).
   Attempt to submit the "Mark as Scheduled" form without filling in the date
   or timezone — confirm the browser/server rejects it and identifies what's
   missing (FR-007).
@@ -95,11 +87,11 @@ Open the dashboard in a browser at the local dev URL.
 
 ### 4. Repost a previously posted item (User Story 4)
 
-- Open `2026-06-20-product-shot` (status: posted). Initiate a repost.
+- Open `product-shot` (status: posted). Initiate a repost.
 - Confirm you're required to supply a new, independent date/timezone before
   the repost can be created (FR-013).
 - Confirm afterward, in `content/acme/manifest.yaml`, a new entry exists
-  with `repostOf: acme/2026-06-20-product-shot.md`, its own `entryId`, its
+  with `repostOf: acme/product-shot.md`, its own `entryId`, its
   own `scheduledAt`/`timezone`, `status: scheduled`, and **no** caption/body
   fields of its own (FR-014, SC-004).
 - Confirm the repost appears as its own item on the calendar under its new
@@ -111,12 +103,12 @@ Open the dashboard in a browser at the local dev URL.
 
 - Apply the "acme" brand filter. Confirm only acme items appear, across
   both the calendar and the unscheduled bucket (FR-016).
-- Clear the filter. Confirm globex's `2026-07-06-weekly-update` reappears
+- Clear the filter. Confirm globex's `weekly-update` reappears
   (FR-017).
 
 ### 6. Broken references surface, not hide
 
-- Delete `content/acme/2026-06-20-product-shot.md` from disk while its
+- Delete `content/acme/product-shot.md` from disk while its
   manifest entry (and any repost referencing it) still exists.
 - Reload the dashboard. Confirm the entry (and its repost, if created)
   still appear but are visibly flagged as having a broken/missing

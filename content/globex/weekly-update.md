@@ -1,5 +1,5 @@
 ---
-id: globex/2026-07-06-weekly-update.md
+id: globex/weekly-update.md
 caption: "This week at Globex: new features, faster performance, and a few surprises."
 hashtags:
   - "#globex"

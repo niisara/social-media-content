@@ -1,14 +1,14 @@
 entries:
   - entryId: acme-launch-teaser-01
-    contentId: acme/2026-07-05-launch-teaser.md
+    contentId: acme/launch-teaser.md
     status: scheduled
     scheduledAt: 2026-07-05T09:00:00
     timezone: America/New_York
   - entryId: acme-product-shot-01
-    contentId: acme/2026-06-20-product-shot.md
+    contentId: acme/product-shot.md
     status: posted
     scheduledAt: 2026-06-20T14:30:00
     timezone: America/New_York
   - entryId: acme-behind-the-scenes-01
-    contentId: acme/2026-07-10-behind-the-scenes.md
+    contentId: acme/behind-the-scenes.md
     status: draft

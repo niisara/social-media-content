@@ -1,5 +1,5 @@
 ---
-id: acme/2026-06-20-product-shot.md
+id: acme/product-shot.md
 caption: "Our flagship product, freshly unboxed."
 hashtags:
   - "#acme"
