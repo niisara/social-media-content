@@ -58,23 +58,25 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             </p>
           </div>
 
-          <div className="flex w-full max-w-3xl items-center gap-3 lg:justify-end">
-            <div className="rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
-              <SegmentedControl
-                options={[
-                  { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
-                  { label: "Today", href: withParams({ offset: "0" }), active: offset === 0 },
-                  { label: `Next ${view} →`, href: withParams({ offset: String(offset + 1) }), active: false },
-                ]}
-              />
-            </div>
-            <div className="ml-auto rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
-              <SegmentedControl
-                options={[
-                  { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
-                  { label: "Month", href: withParams({ view: "month", offset: "0" }), active: view === "month" },
-                ]}
-              />
+          <div className="flex w-full max-w-3xl justify-end">
+            <div className="flex flex-wrap items-center gap-3 rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
+              <div>
+                <SegmentedControl
+                  options={[
+                    { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
+                    { label: "Today", href: withParams({ offset: "0" }), active: offset === 0 },
+                    { label: `Next ${view} →`, href: withParams({ offset: String(offset + 1) }), active: false },
+                  ]}
+                />
+              </div>
+              <div>
+                <SegmentedControl
+                  options={[
+                    { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
+                    { label: "Month", href: withParams({ view: "month", offset: "0" }), active: view === "month" },
+                  ]}
+                />
+              </div>
             </div>
           </div>
         </div>
