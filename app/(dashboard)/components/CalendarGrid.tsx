@@ -30,8 +30,6 @@ export function CalendarGrid({ range, items, brands }: CalendarGridProps) {
   const today = DateTime.now().toISODate();
 
   return (
-    // 7 columns only from lg up: at md widths a 7-col cell (~70px content) cannot hold
-    // the widest status chip without squeezing it, which FR-004 forbids.
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7">
       {dates.map((date) => {
         const dayItems = itemsByDate.get(date) ?? [];
@@ -44,52 +42,50 @@ export function CalendarGrid({ range, items, brands }: CalendarGridProps) {
           <div
             key={date}
             className={[
-              "min-h-32 rounded-lg p-2 transition-shadow",
+              "min-h-[14rem] rounded-[1.75rem] p-4 transition-all",
               isToday
-                ? "bg-white shadow-sm ring-2 ring-gray-900"
+                ? "bg-slate-950 text-white shadow-[0_20px_80px_rgba(15,23,42,0.12)]"
                 : isEmpty
-                  ? "border border-dashed border-slate-300 bg-white/40"
+                  ? "border border-dashed border-slate-300 bg-slate-50"
                   : isWeekend
-                    ? "border border-slate-200 bg-slate-50 shadow-sm"
-                    : "border border-gray-200 bg-white shadow-sm",
+                    ? "border border-slate-200 bg-slate-50"
+                    : "border border-slate-200 bg-white shadow-sm",
             ].join(" ")}
           >
-            <div
-              className={`mb-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-semibold ${
-                isToday ? "text-gray-900" : "text-gray-700"
-              }`}
-            >
-              <span className="whitespace-nowrap">{dt.toFormat("EEE, MMM d")}</span>
+            <div className="mb-4 flex flex-wrap items-center gap-2 text-sm font-semibold">
+              <span className={isToday ? "text-white" : "text-slate-900"}>{dt.toFormat("EEE, MMM d")}</span>
               {isToday && (
-                <span className="shrink-0 rounded-full bg-gray-900 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
+                <span className="rounded-full bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-950">
                   Today
                 </span>
               )}
             </div>
 
             {isEmpty ? (
-              <p className="text-xs text-gray-600">No content</p>
+              <div className={isToday ? "text-slate-200" : "text-slate-500"}>
+                <p className="text-sm">No content</p>
+              </div>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 {dayItems.map((item) => {
                   const brand = brandBySlug.get(item.brand);
                   return (
                     <Link key={item.entryId} href={`/items/${item.entryId}?brand=${item.brand}`} className="block">
-                      <Card brandColor={brand?.color} className="p-2">
-                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+                      <Card brandColor={brand?.color} className={isToday ? "bg-slate-900 text-white" : "p-3"}>
+                        <div className="flex flex-wrap items-center justify-between gap-2">
                           <BrandTag
                             brand={{ displayName: brand?.displayName ?? item.brand, color: brand?.color ?? "#6b7280" }}
                           />
                           <StatusChip status={item.status} />
                         </div>
-                        <p className="mt-1.5 line-clamp-2 text-sm break-words text-gray-800">
+                        <p className={isToday ? "mt-3 text-sm text-slate-200" : "mt-3 text-sm text-slate-800"}>
                           {item.captionPreview ?? "(untitled)"}
                         </p>
                         {(item.repostOf || item.brokenReference) && (
-                          <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-medium">
                             {item.repostOf && <RepostBadge />}
                             {item.brokenReference && (
-                              <span className="text-xs font-medium text-red-600">⚠ Missing content file</span>
+                              <span className={isToday ? "text-rose-300" : "text-rose-600"}>⚠ Missing content</span>
                             )}
                           </div>
                         )}

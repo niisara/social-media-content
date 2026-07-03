@@ -12,15 +12,16 @@ export function DataIntegrityNotices({ untrackedContent, duplicateContentIds }: 
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="grid gap-4 lg:grid-cols-2">
       {untrackedContent.length > 0 && (
         <WarningBanner title={`Untracked content (${untrackedContent.length})`}>
-          These files exist under <code className="text-xs">content/</code> but have no manifest
-          entry yet.
-          <ul className="mt-1 list-inside list-disc">
+          <p className="text-sm text-slate-700">
+            These files exist under <code className="rounded bg-slate-100 px-1 py-0.5 text-xs">content/</code> but have no manifest entry yet.
+          </p>
+          <ul className="mt-3 space-y-2 text-sm text-slate-700">
             {untrackedContent.map((item) => (
-              <li key={item.contentId}>
-                {item.brand}: {item.contentId}
+              <li key={item.contentId} className="rounded-2xl bg-white px-3 py-2 shadow-sm">
+                <span className="font-semibold text-slate-900">{item.brand}</span>: {item.contentId}
               </li>
             ))}
           </ul>
@@ -28,10 +29,10 @@ export function DataIntegrityNotices({ untrackedContent, duplicateContentIds }: 
       )}
       {duplicateContentIds.length > 0 && (
         <WarningBanner title={`Duplicate content references (${duplicateContentIds.length})`}>
-          The same content ID is tracked by more than one manifest entry.
-          <ul className="mt-1 list-inside list-disc">
+          <p className="text-sm text-slate-700">The same content ID is tracked by more than one manifest entry.</p>
+          <ul className="mt-3 space-y-2 text-sm text-slate-700">
             {duplicateContentIds.map((contentId) => (
-              <li key={contentId}>{contentId}</li>
+              <li key={contentId} className="rounded-2xl bg-white px-3 py-2 shadow-sm">{contentId}</li>
             ))}
           </ul>
         </WarningBanner>

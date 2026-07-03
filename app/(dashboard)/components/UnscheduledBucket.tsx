@@ -14,23 +14,36 @@ export function UnscheduledBucket({ items, brands }: UnscheduledBucketProps) {
   const brandBySlug = new Map(brands.map((brand) => [brand.slug, brand]));
 
   return (
-    <section className="rounded-lg border border-dashed border-gray-300 bg-gray-50/60 p-4">
-      <h2 className="text-sm font-semibold text-gray-600">Unscheduled ({items.length})</h2>
+    <section className="space-y-4">
+      <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-900">Unscheduled content</h2>
+            <p className="mt-1 text-sm text-slate-600">Draft items without a scheduled date are easy to review here.</p>
+          </div>
+          <span className="rounded-full bg-white px-3 py-1 text-sm font-semibold text-slate-900 shadow-sm">
+            {items.length} open
+          </span>
+        </div>
+      </div>
+
       {items.length === 0 ? (
-        <p className="mt-1 text-sm text-gray-600">No drafts waiting to be scheduled.</p>
+        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
+          No drafts waiting to be scheduled.
+        </div>
       ) : (
-        <ul className="mt-2 flex list-none flex-wrap gap-2 p-0">
+        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => {
             const brand = brandBySlug.get(item.brand);
             return (
-              <li key={item.entryId} className="w-56">
+              <li key={item.entryId}>
                 <Link href={`/items/${item.entryId}?brand=${item.brand}`} className="block">
-                  <Card brandColor={brand?.color} muted className="p-2">
-                    <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+                  <Card brandColor={brand?.color} muted className="h-full p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <BrandTag brand={{ displayName: brand?.displayName ?? item.brand, color: brand?.color ?? "#6b7280" }} />
                       <StatusChip status={item.status} />
                     </div>
-                    <p className="mt-1.5 line-clamp-2 text-sm break-words text-gray-700">
+                    <p className="mt-3 text-sm leading-6 text-slate-700 line-clamp-3">
                       {item.captionPreview ?? "(untitled)"}
                     </p>
                   </Card>
