@@ -8,32 +8,32 @@ interface RepostFormProps {
 
 export function RepostForm({ entryId, brand, contentId }: RepostFormProps) {
   return (
-    <form action={createRepostAction} className="mt-4 grid max-w-xs gap-3">
+    <form action={createRepostAction} className="grid gap-4 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 shadow-sm shadow-slate-200/40">
       <input type="hidden" name="originalEntryId" value={entryId} />
       <input type="hidden" name="brand" value={brand} />
       <input type="hidden" name="originalContentId" value={contentId} />
-      <label className="text-sm font-medium text-gray-700">
-        Repost date &amp; time (independent of the original)
+      <div>
+        <label className="block text-sm font-semibold text-slate-900">Repost date &amp; time</label>
         <input
           type="datetime-local"
           name="scheduledAt"
           required
-          className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-gray-500 focus:outline-none"
+          className="mt-2 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
         />
-      </label>
-      <label className="text-sm font-medium text-gray-700">
-        Timezone (IANA, e.g. America/New_York)
+      </div>
+      <div>
+        <label className="block text-sm font-semibold text-slate-900">Timezone</label>
         <input
           type="text"
           name="timezone"
           required
           placeholder="America/New_York"
-          className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-gray-500 focus:outline-none"
+          className="mt-2 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
         />
-      </label>
+      </div>
       <button
         type="submit"
-        className="rounded-md border border-purple-300 bg-purple-50 px-3 py-1.5 text-sm font-medium text-purple-700 hover:bg-purple-100 focus:outline-2 focus:outline-offset-2 focus:outline-purple-500"
+        className="inline-flex w-full items-center justify-center rounded-2xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-violet-500 focus:outline-2 focus:outline-offset-2 focus:outline-violet-600"
       >
         Create Repost
       </button>

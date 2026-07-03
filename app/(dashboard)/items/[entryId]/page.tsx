@@ -30,10 +30,13 @@ export default async function ItemDetailPage({ params, searchParams }: ItemDetai
   const brandInfo = listBrands().find((candidate) => candidate.slug === detail.brand);
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <Link href="/" className="text-sm font-medium text-gray-600 hover:text-gray-900">
-        ← Back to dashboard
-      </Link>
+    <main className="mx-auto max-w-4xl p-6">
+      <div className="mb-6 flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm shadow-slate-200/50">
+        <Link href="/" className="text-sm font-medium text-slate-600 transition hover:text-slate-900">
+          ← Back to dashboard
+        </Link>
+        <span className="text-xs uppercase tracking-[0.24em] text-slate-500">Item detail</span>
+      </div>
       <ItemDetailView
         detail={detail}
         brand={{ displayName: brandInfo?.displayName ?? detail.brand, color: brandInfo?.color ?? "#6b7280" }}
