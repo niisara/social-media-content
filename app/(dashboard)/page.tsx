@@ -59,9 +59,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             </p>
           </div>
 
-          <div className="flex w-full max-w-3xl justify-end">
-            <div className="flex flex-wrap items-center gap-3 rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
-              <div>
+          <div className="flex w-full flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-end gap-3">
+              <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
                 <SegmentedControl
                   options={[
                     { label: `← Previous ${view}`, href: withParams({ offset: String(offset - 1) }), active: false },
@@ -70,7 +70,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                   ]}
                 />
               </div>
-              <div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
                 <SegmentedControl
                   options={[
                     { label: "Week", href: withParams({ view: "week", offset: "0" }), active: view === "week" },
@@ -78,6 +78,8 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                   ]}
                 />
               </div>
+            </div>
+            <div className="flex justify-end">
               <Link
                 href="/content-generation"
                 className="inline-flex items-center justify-center rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-2 focus:outline-offset-2 focus:outline-slate-950"
