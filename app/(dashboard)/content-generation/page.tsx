@@ -1,6 +1,12 @@
 import Link from "next/link";
+import { listCharacters } from "@/lib/character/list-characters";
+import { CharacterSelect } from "./CharacterSelect";
+
+export const dynamic = "force-dynamic";
 
 export default function ContentGenerationPage() {
+  const characters = listCharacters();
+
   return (
     <main className="mx-auto max-w-4xl p-6">
       <div className="mb-6 flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm shadow-slate-200/50">
@@ -18,6 +24,8 @@ export default function ContentGenerationPage() {
             This is where you&apos;ll create new content. We&apos;re still building it — check back
             soon.
           </p>
+
+          <CharacterSelect characters={characters} />
 
           <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">
             <span className="inline-block h-2 w-2 rounded-full bg-slate-400" aria-hidden="true" />
