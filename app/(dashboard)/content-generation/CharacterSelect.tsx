@@ -1,15 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { useId, useState } from "react";
 import type { Character } from "@/lib/character/list-characters";
 
 interface CharacterSelectProps {
   characters: Character[];
+  /** Slug to pre-select (e.g. restored from ?character= when returning from a profile). */
+  initialSlug?: string | null;
 }
 
-export function CharacterSelect({ characters }: CharacterSelectProps) {
+export function CharacterSelect({ characters, initialSlug }: CharacterSelectProps) {
   const selectId = useId();
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(() =>
+    initialSlug && characters.some((c) => c.slug === initialSlug) ? initialSlug : null,
+  );
 
   const hasCharacters = characters.length > 0;
   const selected = hasCharacters ? characters.find((c) => c.slug === selectedSlug) ?? null : null;
@@ -50,6 +55,24 @@ export function CharacterSelect({ characters }: CharacterSelectProps) {
           Selected character: <span className="font-semibold text-slate-900">{selected.label}</span>
         </p>
       )}
+
+      <div className="mt-4">
+        {selected ? (
+          <Link
+            href={`/character/${selected.slug}`}
+            className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 focus:outline-2 focus:outline-offset-2 focus:outline-slate-950"
+          >
+            About {selected.label}
+          </Link>
+        ) : (
+          <span
+            aria-disabled="true"
+            className="inline-flex cursor-not-allowed items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400"
+          >
+            About character
+          </span>
+        )}
+      </div>
     </div>
   );
 }
