@@ -4,8 +4,14 @@ import { CharacterSelect } from "./CharacterSelect";
 
 export const dynamic = "force-dynamic";
 
-export default function ContentGenerationPage() {
+interface ContentGenerationPageProps {
+  searchParams: Promise<{ character?: string }>;
+}
+
+export default async function ContentGenerationPage({ searchParams }: ContentGenerationPageProps) {
   const characters = listCharacters();
+  const { character } = await searchParams;
+  const initialSlug = character && characters.some((c) => c.slug === character) ? character : null;
 
   return (
     <main className="mx-auto max-w-4xl p-6">
@@ -25,7 +31,7 @@ export default function ContentGenerationPage() {
             soon.
           </p>
 
-          <CharacterSelect characters={characters} />
+          <CharacterSelect characters={characters} initialSlug={initialSlug} />
 
           <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">
             <span className="inline-block h-2 w-2 rounded-full bg-slate-400" aria-hidden="true" />
