@@ -12,6 +12,7 @@ import { UnscheduledBucket } from "./components/UnscheduledBucket";
 import { DataIntegrityNotices } from "./components/DataIntegrityNotices";
 import { BrandFilter } from "./components/BrandFilter";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import Link from "next/link";
 
 interface DashboardPageProps {
   searchParams: Promise<{ view?: string; offset?: string; brand?: string }>;
@@ -77,6 +78,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                   ]}
                 />
               </div>
+              <Link
+                href="/content-generation"
+                className="inline-flex items-center justify-center rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-2 focus:outline-offset-2 focus:outline-slate-950"
+              >
+                Content Generation
+              </Link>
             </div>
           </div>
         </div>
